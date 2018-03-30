@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tu.user.dao.UserDao">
+	<!-- 查询所有 -->
+	<select id="getAll" resultType="hashmap">
+		select * from user
+	</select>
+	<!-- 根据主键查询 -->
+	<select id="selectByPrimaryKey" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+		select * from user where id = #{id}
+	</select>
+	<!-- 插入 -->
+	<insert id="addUser" parameterType="java.util.HashMap">
+		<!-- 返回主键 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+		insert into user (name,password,age,male) value(#{name},#{password},#{age},#{male})
+	</insert>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.HashMap">
+		delete from user where id=#{id}
+	</delete>
+	<!-- 修改 -->
+	<update id="update" parameterType="java.util.HashMap">
+		update user set name=#{name} where id=#{id}
+	</update>
+</mapper>
