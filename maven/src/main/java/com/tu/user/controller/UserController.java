@@ -30,6 +30,14 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("/login")
+	private ModelAndView initLogin(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView();
+		//List<Map<String,Object>> user = userService.getAll();
+		//mv.addObject("user",user);
+		mv.setViewName("login");
+		return mv;
+	}
 	@RequestMapping("/index/load")
 	private @ResponseBody List<Map<String,Object>> requestJson(@RequestBody Map<String, Object> map){
 		List<Map<String,Object>> list = userService.getAll();

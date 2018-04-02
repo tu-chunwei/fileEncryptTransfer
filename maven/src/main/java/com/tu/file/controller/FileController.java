@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 
 import javax.annotation.Resource;
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -45,19 +45,19 @@ public class FileController {
 				//将文件的前半部分路径与文件名拼接
 				File file = new File(leftPath, filename);
 				try {
-					byte[] generateAESSecretKey = AESUtil.generateAESSecretKey();
-					SecretKey key = AESUtil.restoreSecretKey(generateAESSecretKey);
-					byte[] aesEcbEncode = AESUtil.AesEcbEncode(uploadFile[i].getBytes(), key);
-					
+					//文件加密
+					byte[] aesEncoded = AESUtil.encrypt(uploadFile[i].getBytes(), "123");
 					OutputStream os = new FileOutputStream(file);
-					os.write(aesEcbEncode);
+					os.write(aesEncoded);
 					os.flush();
 					os.close();
 					
 					//File file2 = new File(aesEcbEncode.toString());
 					//System.out.println(aesEcbEncode);
 					//uploadFile[i].transferTo(file);
-				} catch (IllegalStateException | IOException e) {
+				} catch (GeneralSecurityException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -88,9 +88,15 @@ public class FileController {
 		bos.flush();
 		bos.close();
 		in.close();
-		byte[] generateAESSecretKey = AESUtil.generateAESSecretKey();
+		byte[] aesDecoded = null;
+		try {
+			aesDecoded = AESUtil.decrypt(bos.toByteArray(), "123");
+		} catch (GeneralSecurityException e) {
+			e.printStackTrace();
+		}
+		/*byte[] generateAESSecretKey = AESUtil.generateAESSecretKey();
 		SecretKey key = AESUtil.restoreSecretKey(generateAESSecretKey);
-		AESUtil.AesEcbDecode(bos.toByteArray(), key);
-		return new ResponseEntity<byte[]>(bos.toByteArray(), headers, HttpStatus.CREATED);
+		AESUtil.AesEcbDecode(bos.toByteArray(), key);*/
+		return new ResponseEntity<byte[]>(aesDecoded, headers, HttpStatus.CREATED);
 	}
 }
