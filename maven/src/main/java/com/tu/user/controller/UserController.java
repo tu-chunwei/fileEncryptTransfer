@@ -30,6 +30,16 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("/randomShock")
+	private @ResponseBody List<Map<String,Object>> randomShock(@RequestBody Map<String, Object> map){
+		
+		
+		
+		
+		List<Map<String,Object>> list = userService.getAll();
+		return list;
+	}
+	
 	@RequestMapping("/login")
 	private ModelAndView initLogin(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
