@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.2.1.min.js"></script>
-<script src="js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/ajaxfileupload.js"></script>
 <title>Test</title>
 </head>
 <body>
@@ -36,25 +36,52 @@ id：<input type="text" id="id">
 </body>
 <!-- **************************************       js        *************************************** -->
 <script type="text/javascript">
+$(function(){
+	debugger
+	$.ajax({
+		url:"${pageContext.request.contextPath }/user/randomShock",
+		type:"POST",
+		data:JSON.stringify({"id":"600"}),
+		contentType : 'application/json;charset=UTF-8',
+		datatype:"json",
+		success:function (data){
+			debugger
+		},
+		error:function(e){
+			debugger
+		}
+	});
+	/* $.postJSON("${pageContext.request.contextPath }/user/randomShock",{"id":"1","name":"2"},function(e){
+		debugger
+		if(e){
+			for(var i=0;i<e.length;i++){
+				html+="name"+e[i].name+"id"+e[i].id;
+			}alert(html);
+			$("#show").html(html);
+		}
+	}); */
+});
 
 
 function updateUser(){
 	var id = $("#id").val();
 	var name = $("#name").val();
-	$.postJSON("<%=request.getContextPath() %>/update",{"id":id,"name":name},function(e){});
+	$.postJSON("<%=request.getContextPath() %>/user/update",{"id":id,"name":name},function(e){});
 }
 function deleteUser(){
 	var id = $("#id").val();
-	$.postJSON("<%=request.getContextPath() %>/deleteuser",{"id":id},function(e){});
+	$.postJSON("<%=request.getContextPath() %>/user/deleteuser",{"id":id},function(e){});
 }
 function register(){
+	debugger
 	var param = {
 		"name":$("#name").val(),
 		"password":$("#password").val(),
 		"age":$("#age").val(),
 		"male":$("#male").val(),
 	}
-	$.postJSON("<%=request.getContextPath() %>/register",param,function(e){
+	$.postJSON("<%=request.getContextPath() %>/user/register",param,function(e){
+		debugegr
 		if(e){
 			alert(id);
 		}
@@ -62,7 +89,7 @@ function register(){
 }
 function myfunction(){
 	var html = "";
-	$.postJSON("<%=request.getContextPath()%>/index/load",{"id":1},function(e){
+	$.postJSON("<%=request.getContextPath()%>/user/index/load",{"id":1},function(e){
 		if(e){
 			for(var i=0;i<e.length;i++){
 				html+="name"+e[i].name+"id"+e[i].id;
