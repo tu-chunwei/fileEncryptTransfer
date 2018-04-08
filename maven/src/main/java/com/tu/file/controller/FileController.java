@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tu.file.service.IFileService;
-import com.tu.file.utils.AESUtil;
+import com.tu.security.utils.AESUtil;
 
 
 @Controller

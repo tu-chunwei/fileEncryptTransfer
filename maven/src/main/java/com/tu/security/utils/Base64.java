@@ -1,4 +1,4 @@
-package com.tu.file.utils;
+package com.tu.security.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -2,7 +2,7 @@ package com.tu.file.test;
 
 import java.security.GeneralSecurityException;
 
-import com.tu.file.utils.AESUtil;
+import com.tu.security.utils.AESUtil;
 
 public class AESUtilTest {
 	

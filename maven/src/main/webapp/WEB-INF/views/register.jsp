@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/common/head.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>注册</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/mdui.css" />
-<script src="${pageContext.request.contextPath }/js/mdui.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.2.1.min.js"></script>
 </head>
 <body style="background: url(../img/bcl3.jpg); background-size: cover;">
 	<div class="mdui-container">
@@ -44,7 +41,7 @@
 				style="margin-top: 30px;">
 				<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-gray"
 					style="background: rgba(0, 132, 255, .7); color: #ffffff; width: 100%;">
-					<i class="mdui-icon mdui-icon-center material-icons"></i>登录
+					<i class="mdui-icon mdui-icon-center material-icons"></i>注册
 				</button>
 			</div>
 			<!--<div  class="mudi-row mdui-col-md-8 mdui-col-offset-md-2 mdui-col-xs-8 mdui-col-offset-xs-2" style="margin-top: 10px;" > 
@@ -58,40 +55,29 @@
 </body>
 
 <script type="text/javascript">
-	
 	$(function(){
-		debugger
-		$.postJSON("${pageContext.request.contextPath }/user/randomShock",{},function(e){
+		$.postJSON("${pageContext.request.contextPath }/security/key",{},function(e){
 			debugger
-			var encrypt = new RSAUtils();
-			encrypt.setPublicKey(e.pubkey);
-			// 加密
-			alert(encrypt.encrypt("hello"));
-			
-			var a = guid();
-			var b = $w.RSAUtils.encryptedString(pubkey,a);
-		}); 
-		
+			if(e != null){
+				var a = guid();
+				//模
+				var modulus = e.pubKey.split(';')[0];
+				//公钥指数
+				var public_exponent = e.pubKey.split(';')[1];
+				//通过模和公钥参数获取公钥
+				var key = new RSAUtils.getKeyPair(public_exponent, "", modulus);
+				//对密码进行加密传输 
+				var encrypedPwd = RSAUtils.encryptedString(key,a);
+				alert(encrypedPwd);
+			}
+		});
 	});
-	
-	
+	//生成随机码
 	function guid() {
 	    function S4() {
 	       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	    }
 	    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	}
-	
-	$.postJSON = function(url, data, callback) {
-	    return jQuery.ajax({
-	        'type' : 'POST',
-	        'url' : url,
-	        'contentType' : 'application/json;charset=UTF-8',
-	        'data' : JSON.stringify(data),
-	        'dataType' : 'json',
-	        'success' : callback
-	    });
-	};
-
 	</script>
 </html>

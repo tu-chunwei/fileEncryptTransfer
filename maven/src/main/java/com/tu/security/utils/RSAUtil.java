@@ -1,4 +1,4 @@
-package com.tu.file.utils;
+package com.tu.security.utils;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import javax.crypto.Cipher;
 
 public class RSAUtil {
+	public static final int KEYSIZE = 1024;
 	/** 
      * 生成公钥和私钥 
      * @throws NoSuchAlgorithmException  
@@ -24,7 +25,7 @@ public class RSAUtil {
     	Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         HashMap<String, Object> map = new HashMap<String, Object>();  
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA", new org.bouncycastle.jce.provider.BouncyCastleProvider());  
-        keyPairGen.initialize(1024);  
+        keyPairGen.initialize(KEYSIZE);  
         KeyPair keyPair = keyPairGen.generateKeyPair();  
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();  
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();  
