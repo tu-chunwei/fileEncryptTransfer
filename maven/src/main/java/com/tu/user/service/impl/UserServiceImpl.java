@@ -11,32 +11,37 @@ import org.springframework.stereotype.Service;
 import com.tu.user.dao.UserDao;
 import com.tu.user.service.UserService;
 
-
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Resource
 	private UserDao userDao;
+
 	@Override
-	public Map<String,Object> selectByPrimaryKey(Integer id) {
+	public Map<String, Object> selectByPrimaryKey(Integer id) {
 		return userDao.selectByPrimaryKey(id);
 	}
+
 	@Override
-	public List<Map<String,Object>> getAll() {
+	public List<Map<String, Object>> getAll() {
 		return userDao.getAll();
 	}
+
 	@Override
-	public Map<String,Object> addUser(Map<String, Object> map) {
-		Map<String,Object> idMap = new HashMap<String, Object>();
+	public Map<String, Object> addUser(Map<String, Object> map) {
+		Map<String, Object> idMap = new HashMap<String, Object>();
 		userDao.addUser(map);
+		System.out.println(map.get("name"));
 		idMap.put("id", map.get("id"));
 		System.out.println(map.get("id"));
 		return idMap;
 	}
+
 	@Override
 	public int delete(Map<String, Object> map) {
 		return userDao.delete(map);
 	}
+
 	@Override
 	public int update(Map<String, Object> map) {
 		userDao.update(map);

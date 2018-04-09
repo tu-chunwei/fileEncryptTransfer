@@ -1,9 +1,5 @@
 package com.tu.user.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tu.security.utils.RSAUtil;
 import com.tu.user.service.UserService;
 
 @Controller
@@ -26,8 +21,9 @@ import com.tu.user.service.UserService;
 public class UserController {
 
 	@Resource
-	private UserService userService;
-	
+	public UserService userService;
+	@Resource
+	private HttpSession session;
 	
 	@RequestMapping("/home")
 	private ModelAndView init(HttpServletRequest request) {
@@ -57,6 +53,7 @@ public class UserController {
 
 	@RequestMapping("/register")
 	private @ResponseBody Map<String, Object> register(@RequestBody Map<String, Object> map) {
+		session.setAttribute("name", "tu");
 		return userService.addUser(map);
 	}
 

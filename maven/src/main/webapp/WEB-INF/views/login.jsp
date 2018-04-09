@@ -60,30 +60,32 @@
 </body>
 
 <script type="text/javascript">
-	
 	$(function(){
-		debugger
-		var a = guid();
+		$.postJSON("${pageContext.request.contextPath }/security/key",{},function(e){
+			debugger
+			if(e != null){
+				var a = guid();
+				//模
+				var modulus = e.pubKey.split(';')[0];
+				//公钥指数
+				var public_exponent = e.pubKey.split(';')[1];
+				//通过模和公钥参数获取公钥
+				var key = new RSAUtils.getKeyPair(public_exponent, "", modulus);
+				//对密码进行加密传输 
+				var encrypedPwd = RSAUtils.encryptedString(key,a);
+				$.postJSON("${pageContext.request.contextPath }/security/getAESkey",{"encrypedPwd":encrypedPwd},function(e){
+					debugger
+				});
+				alert(encrypedPwd);
+			}
+		});
 	});
-	
-	
+	//生成随机码
 	function guid() {
 	    function S4() {
 	       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	    }
 	    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	}
-	
-	$.postJSON = function(url, data, callback) {
-	    return jQuery.ajax({
-	        'type' : 'POST',
-	        'url' : url,
-	        'contentType' : 'application/json;charset=UTF-8',
-	        'data' : JSON.stringify(data),
-	        'dataType' : 'json',
-	        'success' : callback
-	    });
-	};
-
-	</script>
+</script>
 </html>
