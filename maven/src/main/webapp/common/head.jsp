@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/mdui.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/common.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/security.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jsencrypt.js"></script>
 </head>
 <body>
 </body>

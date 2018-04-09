@@ -64,8 +64,8 @@
 		$.postJSON("${pageContext.request.contextPath }/security/key",{},function(e){
 			debugger
 			if(e != null){
-				var a = guid();
-				//模
+				var random = guid();
+				/* //模
 				var modulus = e.pubKey.split(';')[0];
 				//公钥指数
 				var public_exponent = e.pubKey.split(';')[1];
@@ -73,6 +73,13 @@
 				var key = new RSAUtils.getKeyPair(public_exponent, "", modulus);
 				//对密码进行加密传输 
 				var encrypedPwd = RSAUtils.encryptedString(key,a);
+				$.postJSON("${pageContext.request.contextPath }/security/getAESkey",{"encrypedPwd":encrypedPwd},function(e){
+					debugger
+				}); */
+				var encrypt = new JSEncrypt();
+				encrypt.setPublicKey(e.pubKey);
+				//加密
+				var encrypedPwd = encrypt.encrypt(random);
 				$.postJSON("${pageContext.request.contextPath }/security/getAESkey",{"encrypedPwd":encrypedPwd},function(e){
 					debugger
 				});
