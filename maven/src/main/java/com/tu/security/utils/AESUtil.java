@@ -60,6 +60,7 @@ public class AESUtil {
 			SecretKey secretKey = kgen.generateKey();
 			byte[] enCodeFormat = secretKey.getEncoded();
 			SecretKeySpec key = new SecretKeySpec(enCodeFormat, ALGORITHM);
+			System.out.println(key);
 			return key;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

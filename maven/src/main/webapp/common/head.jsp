@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/common.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/security.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jsencrypt.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/aes.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/mode-ecb.js"></script>
 </head>
 <body>
 </body>
