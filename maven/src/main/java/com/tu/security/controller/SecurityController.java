@@ -2,7 +2,6 @@ package com.tu.security.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tu.security.utils.EncryptUtils;
 import com.tu.security.utils.RSACoder;
+import com.tu.security.utils.SecurityUtil;
+import com.tu.security.vo.AESInfo;
 
 @Controller
 @RequestMapping("/security")
@@ -89,27 +89,16 @@ public class SecurityController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String a = map.get("text").toString();
 		String AESkey = session.getAttribute("AESkey").toString();
-		try {
-			String aesDecrypt = EncryptUtils.aesDecrypt(a, AESkey);
-			result.put("decodeResult", aesDecrypt);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String decrypt = decrypt(a, AESkey);
+		System.out.println(decrypt);
 		return result;
-		/*String privateKey = (String) session.getAttribute("priKey");
-		try {
-			byte[] AESkey = RSACoder.decryptByPrivateKey(map.get("encrypedPwd").toString(), privateKey);
-			System.err.print("AESKey:");
-			System.out.println(new String(AESkey,"UTF-8"));
-			session.setAttribute("AESkey", AESkey);
-			Cookie cookie = new Cookie("AESkey","AESkey");
-			cookie.setMaxAge(30*60);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-		} catch (Exception e) {
-			new Exception("RSA解密AES对称密钥失败");
-			e.printStackTrace();
-		}
-		return map;*/
 	}
+	public static String decrypt( String input, String DL) {
+        String[] values = input.split( DL );
+        String indices = values[values.length - 1];
+        int[] indexes = SecurityUtil.convert( indices );
+        AESInfo securityInfo = new AESInfo( values, indexes );
+        SecurityUtil aesUtil = new SecurityUtil( securityInfo.getKeySize(), securityInfo.getIterationCount() );
+        return aesUtil.decrypt( securityInfo.getSalt(), securityInfo.getIv(), securityInfo.getPassPhrase(), securityInfo.getCipherText() );
+    }
 }
