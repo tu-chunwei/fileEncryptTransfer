@@ -1,2 +1,5 @@
 *.h linguist-language=Java;
 *.m linguist-language=Java;
+*.js linguist-language=java;
+*.css linguist-language=java;
+*.html linguist-language=java;
