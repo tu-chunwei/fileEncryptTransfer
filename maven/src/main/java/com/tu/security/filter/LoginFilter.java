@@ -24,9 +24,17 @@ public class LoginFilter implements Filter{
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		HttpSession session = request.getSession();
 		String AESkey = (String) session.getAttribute("AESkey");
+		
+		String uri = request.getRequestURI();
+		if (uri.indexOf("/login.jsp") > -1) {
+			chain.doFilter(arg0, arg1);
+			return;
+		}
+		
+		String path = request.getContextPath();
 		if(AESkey == null || "".equals(AESkey)) {
 			//跳转到登录页面
-			response.sendRedirect("login.jsp");
+			response.sendRedirect(path+"/login.jsp");
 		}else {
 			//继续此次请求
 			chain.doFilter(arg0, arg1);
